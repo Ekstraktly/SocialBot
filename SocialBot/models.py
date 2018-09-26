@@ -1,14 +1,18 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, UserManager
 
-class User(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField()
-    password = models.
+
+class CustomUser(AbstractUser, UserManager):
+    name = models.CharField(max_length=255,blank=True, null=True)
+
+    def __str__(self):
+        return self.email
+
 
 class Post(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
     active = models.BooleanField()
     published = models.DateTimeField()
+
 
